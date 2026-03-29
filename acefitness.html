@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ace Fitness — Empowering Your Fitness Journey</title>
+<meta name="description" content="Ace Fitness in Tamale — one-on-one personal training, certified tutors, custom programmes. Book your free consultation."/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black: #090909;
+    --deep: #101010;
+    --card: #141414;
+    --border: #232323;
+    --red: #d41515;
+    --red-glow: rgba(212,21,21,0.22);
+    --white: #f0ede8;
+    --muted: #7a7870;
+    --light: #bfbbb4;
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+  body{background:var(--black);color:var(--white);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden;}
+  html.custom-cursor-active body{cursor:none;}
+
+  .cursor{position:fixed;width:10px;height:10px;background:var(--red);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;display:none;}
+  .cursor-ring{position:fixed;width:34px;height:34px;border:1px solid var(--red);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.4;display:none;}
+  html.custom-cursor-active .cursor,html.custom-cursor-active .cursor-ring{display:block;}
+
+  a:focus-visible,button:focus-visible,.nav-logo:focus-visible,.plan-btn:focus-visible,.btn-red:focus-visible,.btn-ghost:focus-visible,.btn-white:focus-visible,.btn-outline-white:focus-visible,.soc-btn:focus-visible{outline:2px solid var(--red);outline-offset:3px;}
+  input:focus-visible,select:focus-visible,textarea:focus-visible{border-color:var(--red);outline:2px solid var(--red);outline-offset:0;}
+  .skip-link{position:absolute;left:-9999px;top:auto;z-index:10000;padding:12px 20px;background:var(--red);color:var(--white);font-weight:700;text-decoration:none;text-transform:uppercase;font-size:.72rem;letter-spacing:2px;}
+  .skip-link:focus{left:16px;top:16px;outline:2px solid var(--white);outline-offset:2px;}
+  .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 60px;transition:background .3s,border-color .3s,backdrop-filter .3s;background:rgba(9,9,9,.78);backdrop-filter:saturate(1.1) blur(12px);-webkit-backdrop-filter:saturate(1.1) blur(12px);border-bottom:1px solid rgba(35,35,35,.5);}
+  nav.scrolled{background:rgba(9,9,9,.97);border-bottom-color:var(--border);}
+  .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .nav-logo-img{height:50px;width:auto;}
+  .nav-links{display:flex;gap:30px;list-style:none;align-items:center;color:var(--white);}
+  .nav-links a{text-decoration:none;color:rgba(240,237,232,.82);font-size:.7rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;transition:color .2s;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--red);transition:width .3s;}
+  .nav-links a:hover{color:var(--white);}
+  .nav-links a:hover::after{width:100%;}
+  .nav-cta{background:var(--red)!important;color:var(--white)!important;padding:10px 22px;font-weight:700!important;letter-spacing:2px!important;}
+  .nav-cta:hover{background:#f01a1a!important;box-shadow:0 0 20px var(--red-glow);}
+  .nav-cta::after{display:none!important;}
+  .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;}
+  html.custom-cursor-active .hamburger{cursor:none;}
+  .hamburger span{width:26px;height:2px;background:var(--white);display:block;}
+
+  .mobile-nav{display:none;position:fixed;inset:0;background:var(--black);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:28px;}
+  .mobile-nav.open{display:flex;}
+  body.menu-open{overflow:hidden;}
+  .mobile-nav a{font-family:'Bebas Neue',cursive;font-size:2.2rem;letter-spacing:3px;text-transform:uppercase;color:var(--white);text-decoration:none;transition:color .2s;}
+  .mobile-nav a:hover{color:var(--red);}
+  .mobile-close{position:absolute;top:22px;right:32px;background:none;border:none;color:var(--white);font-size:1.8rem;cursor:pointer;}
+  html.custom-cursor-active .mobile-close{cursor:none;}
+
+  #hero{height:100vh;min-height:680px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 60px 80px;position:relative;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(to bottom,rgba(5,5,5,.88) 0%,rgba(9,9,9,.45) 28%,rgba(9,9,9,.12) 52%,transparent 62%),linear-gradient(to top,var(--black) 0%,rgba(9,9,9,.55) 48%,rgba(9,9,9,.35) 100%),url('https://images.unsplash.com/photo-1571019613576-2b22c76fd955?w=1600&q=80') center/cover no-repeat;}
+  .hero-slice{position:absolute;top:0;right:0;bottom:0;width:4px;background:linear-gradient(to bottom,transparent,var(--red) 40%,transparent);z-index:2;animation:pulse-line 3.5s ease-in-out infinite;}
+  @keyframes pulse-line{0%,100%{opacity:.3}50%{opacity:1}}
+  .hero-content{position:relative;z-index:3;max-width:780px;}
+  .hero-eyebrow{font-size:.68rem;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--red);margin-bottom:18px;animation:fade-up .8s ease both;}
+  .hero-title{font-family:'Bebas Neue',cursive;font-size:clamp(4.5rem,10vw,10rem);line-height:.92;letter-spacing:2px;text-transform:uppercase;animation:fade-up .8s .1s ease both;}
+  .hero-title .red{color:var(--red);}
+  .hero-sub{margin-top:20px;font-size:1rem;font-weight:300;color:var(--light);max-width:460px;line-height:1.7;animation:fade-up .8s .2s ease both;}
+  .hero-tagline{margin-top:10px;font-size:.78rem;font-weight:700;color:var(--red);letter-spacing:3px;text-transform:uppercase;animation:fade-up .8s .25s ease both;}
+  .hero-actions{display:flex;gap:14px;margin-top:36px;animation:fade-up .8s .3s ease both;}
+  .btn-red{background:var(--red);color:var(--white);padding:15px 34px;font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .2s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+  .btn-red:hover{background:#f01a1a;box-shadow:0 0 28px var(--red-glow);transform:translateY(-2px);}
+  .btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border);padding:15px 34px;font-size:.78rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .2s;}
+  .btn-ghost:hover{border-color:var(--red);color:var(--red);}
+  .hero-stats{position:absolute;right:60px;bottom:80px;z-index:3;display:flex;flex-direction:column;gap:22px;text-align:right;animation:fade-up .8s .4s ease both;}
+  .stat-num{font-family:'Bebas Neue',cursive;font-size:2.6rem;color:var(--white);line-height:1;}
+  .stat-num span{color:var(--red);}
+  .stat-label{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+  @keyframes fade-up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+  .marquee-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--deep);padding:13px 0;}
+  .marquee-track{display:flex;gap:60px;white-space:nowrap;animation:marquee 24s linear infinite;width:max-content;}
+  @media (prefers-reduced-motion:reduce){.marquee-track{animation:none;}}
+  .marquee-track span{font-size:.68rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--muted);}
+  .marquee-track .ace{color:var(--red);font-size:.95rem;}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  section{padding:110px 60px;}
+  .section-eyebrow{font-size:.68rem;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
+  .section-title{font-family:'Bebas Neue',cursive;font-size:clamp(2.4rem,5vw,4.8rem);line-height:.96;text-transform:uppercase;margin-bottom:18px;}
+  .section-desc{font-size:.92rem;font-weight:300;color:var(--light);line-height:1.75;max-width:480px;}
+
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity .7s,transform .7s;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  .reveal-l{opacity:0;transform:translateX(-36px);transition:opacity .7s,transform .7s;}
+  .reveal-l.visible{opacity:1;transform:translateX(0);}
+  .reveal-r{opacity:0;transform:translateX(36px);transition:opacity .7s,transform .7s;}
+  .reveal-r.visible{opacity:1;transform:translateX(0);}
+
+  /* ABOUT */
+  #about{display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:center;}
+  .about-img-wrap{position:relative;}
+  .about-img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(10%);}
+  .about-frame{position:absolute;top:-14px;left:-14px;right:14px;bottom:14px;border:1px solid var(--red);z-index:-1;pointer-events:none;}
+  .about-badge{position:absolute;bottom:-22px;right:-22px;background:var(--red);padding:18px 22px;font-family:'Bebas Neue',cursive;font-size:2.2rem;color:var(--white);line-height:1;text-align:center;}
+  .about-badge small{display:block;font-family:'Montserrat',sans-serif;font-size:.56rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.65);margin-top:3px;}
+  .perks{list-style:none;margin-top:34px;display:flex;flex-direction:column;gap:13px;}
+  .perks li{display:flex;align-items:center;gap:14px;font-size:.86rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--light);}
+  .perks li .icon{width:32px;height:32px;border:1px solid var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.85rem;}
+
+  /* TUTORS — NO PHOTOS */
+  #tutors{background:var(--deep);}
+  .tutors-intro{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;}
+  .tutors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+  .tutor-card{background:var(--card);border:1px solid var(--border);padding:40px 32px 36px;position:relative;transition:border-color .3s;overflow:hidden;}
+  .tutor-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+  .tutor-card:hover{border-color:var(--red);}
+  .tutor-card:hover::before{transform:scaleX(1);}
+  .tutor-watermark{position:absolute;top:-10px;right:-10px;font-family:'Bebas Neue',cursive;font-size:9rem;color:var(--red);opacity:.04;line-height:1;pointer-events:none;-webkit-user-select:none;user-select:none;}
+  .tutor-avatar-ring{width:80px;height:80px;border-radius:50%;border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin-bottom:22px;position:relative;}
+  .tutor-initials{font-family:'Bebas Neue',cursive;font-size:2rem;color:var(--red);letter-spacing:2px;}
+  .tutor-spade{position:absolute;bottom:-8px;right:-8px;background:var(--red);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--white);}
+  .tutor-specialty{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+  .tutor-name{font-family:'Bebas Neue',cursive;font-size:1.9rem;letter-spacing:1.5px;text-transform:uppercase;line-height:1;}
+  .tutor-cert{font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:6px;}
+  .tutor-divider{width:36px;height:2px;background:var(--red);margin:18px 0;}
+  .tutor-bio{font-size:.82rem;color:var(--muted);line-height:1.65;}
+  .tutor-stats{display:flex;gap:28px;margin-top:22px;padding-top:20px;border-top:1px solid var(--border);}
+  .t-stat-num{font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--white);line-height:1;}
+  .t-stat-num span{color:var(--red);font-size:1rem;}
+  .t-stat-lbl{font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+
+  /* HOW IT WORKS */
+  #how{background:var(--black);}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:60px;}
+  .step{background:var(--card);border:1px solid var(--border);padding:36px 26px 32px;position:relative;transition:border-color .3s;}
+  .step:hover{border-color:var(--red);}
+  .step-num{font-family:'Bebas Neue',cursive;font-size:4.5rem;color:var(--red);opacity:.1;line-height:1;position:absolute;top:14px;right:18px;}
+  .step-icon{width:42px;height:42px;border:1px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:20px;}
+  .step-title{font-family:'Bebas Neue',cursive;font-size:1.3rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+  .step-text{font-size:.8rem;color:var(--muted);line-height:1.65;}
+
+  /* PRICING */
+  #pricing{background:var(--deep);}
+  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:60px;}
+  .plan{background:var(--card);border:1px solid var(--border);padding:44px 34px;position:relative;transition:border-color .3s;}
+  .plan:hover{border-color:var(--red);}
+  .plan.featured{background:var(--red);border-color:var(--red);}
+  .plan-badge{position:absolute;top:-12px;left:34px;background:var(--black);color:var(--red);font-size:.62rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;padding:4px 12px;border:1px solid var(--red);}
+  .plan.featured .plan-badge{background:var(--red);color:var(--white);border-color:var(--white);}
+  .plan-name{font-family:'Bebas Neue',cursive;font-size:1.4rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px;}
+  .plan-price{font-family:'Bebas Neue',cursive;font-size:3.8rem;line-height:1;}
+  .plan-price sup{font-size:1.2rem;vertical-align:super;}
+  .plan-period{font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:4px;margin-bottom:32px;}
+  .plan.featured .plan-period{color:rgba(255,255,255,.7);}
+  .plan-features{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:32px;}
+  .plan-features li{font-size:.82rem;font-weight:500;display:flex;align-items:center;gap:10px;color:var(--light);}
+  .plan.featured .plan-features li{color:rgba(255,255,255,.9);}
+  .ok{color:var(--red);}
+  .plan.featured .ok{color:var(--white);}
+  .no{color:rgba(255,255,255,.18);}
+  .plan-btn{display:block;text-align:center;text-decoration:none;padding:13px 28px;font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:1px solid var(--border);color:var(--white);transition:all .2s;}
+  .plan-btn:hover{background:var(--red);border-color:var(--red);}
+  .plan.featured .plan-btn{background:var(--black);border-color:var(--black);}
+  .plan.featured .plan-btn:hover{background:#111;}
+
+  /* TESTIMONIALS */
+  #testimonials{background:var(--black);}
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;}
+  .testi-card{background:var(--card);border:1px solid var(--border);padding:34px;position:relative;}
+  .testi-big-q{font-family:'Bebas Neue',cursive;font-size:5rem;color:var(--red);opacity:.12;line-height:.8;position:absolute;top:18px;right:20px;}
+  .stars{color:var(--red);letter-spacing:3px;font-size:.7rem;margin-bottom:14px;}
+  .testi-text{font-size:.88rem;color:var(--light);line-height:1.75;font-style:italic;}
+  .testi-author{display:flex;align-items:center;gap:12px;margin-top:22px;}
+  .testi-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--red);filter:grayscale(15%);}
+  .testi-name{font-size:.84rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+  .testi-since{font-size:.7rem;color:var(--muted);margin-top:2px;}
+
+  /* GALLERY */
+  #gallery{background:var(--deep);padding:110px 0;}
+  #gallery .inner{padding:0 60px 40px;}
+  .gallery-strip{display:flex;gap:4px;overflow-x:auto;padding:0 60px;scrollbar-width:none;}
+  .gallery-strip::-webkit-scrollbar{display:none;}
+  .g-item{flex-shrink:0;width:270px;height:350px;overflow:hidden;}
+  .g-item img{width:100%;height:100%;object-fit:cover;filter:grayscale(40%) brightness(.8);transition:filter .4s,transform .4s;}
+  .g-item:hover img{filter:grayscale(0%) brightness(1);transform:scale(1.05);}
+
+  /* CTA BAND */
+  .cta-band{background:var(--red);padding:80px 60px;display:flex;align-items:center;justify-content:space-between;gap:40px;position:relative;overflow:hidden;}
+  .cta-band::before{content:'ACE';position:absolute;right:-40px;top:50%;transform:translateY(-50%);font-family:'Bebas Neue',cursive;font-size:14rem;color:rgba(0,0,0,.08);pointer-events:none;white-space:nowrap;}
+  .cta-title{font-family:'Bebas Neue',cursive;font-size:clamp(2rem,4.5vw,4rem);text-transform:uppercase;color:var(--white);line-height:1;}
+  .cta-actions{display:flex;gap:14px;flex-shrink:0;}
+  .btn-white{background:var(--white);color:var(--red);padding:15px 34px;font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .2s;}
+  .btn-white:hover{background:var(--black);color:var(--white);}
+  .btn-outline-white{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.5);padding:15px 34px;font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .2s;}
+  .btn-outline-white:hover{border-color:var(--white);}
+
+  /* CONTACT */
+  #contact{background:var(--black);}
+  .contact-wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:80px;margin-top:60px;}
+  .contact-info{display:flex;flex-direction:column;gap:30px;}
+  .ci-label{font-size:.63rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:6px;}
+  .ci-value{font-size:.9rem;color:var(--light);line-height:1.75;}
+  .contact-form{display:flex;flex-direction:column;gap:14px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  label{display:block;margin-bottom:5px;font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+  input,select,textarea{width:100%;background:var(--deep);border:1px solid var(--border);color:var(--white);padding:13px 15px;font-family:'Montserrat',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s;appearance:none;resize:none;}
+  input:focus,select:focus,textarea:focus{border-color:var(--red);}
+  .form-submit{background:var(--red);color:var(--white);border:none;padding:15px 38px;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;transition:all .2s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+  html.custom-cursor-active .form-submit{cursor:none;}
+  .form-submit:hover{background:#f01a1a;box-shadow:0 0 20px var(--red-glow);}
+  .form-ok{display:none;margin-top:10px;color:#5cba7f;font-size:.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;}
+
+  /* FOOTER */
+  footer{background:var(--deep);border-top:1px solid var(--border);padding:56px 60px 28px;}
+  .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:44px;border-bottom:1px solid var(--border);}
+  .footer-logo-img{height:60px;width:auto;margin-bottom:12px;}
+  .footer-tagline{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+  .footer-desc{font-size:.8rem;color:var(--muted);line-height:1.7;max-width:260px;}
+  .footer-socials{display:flex;gap:10px;margin-top:20px;}
+  .soc-btn{width:34px;height:34px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;font-size:.75rem;transition:all .2s;}
+  .soc-btn:hover{border-color:var(--red);color:var(--red);}
+  .ft-col-title{font-size:.65rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;margin-bottom:18px;color:var(--white);}
+  .ft-links{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .ft-links a{color:var(--muted);text-decoration:none;font-size:.8rem;transition:color .2s;}
+  .ft-links a:hover{color:var(--white);}
+  .footer-bottom{padding-top:22px;display:flex;justify-content:space-between;align-items:center;}
+  .footer-copy{font-size:.7rem;color:var(--muted);}
+  .footer-copy span{color:var(--red);}
+
+  .scroll-top{position:fixed;bottom:30px;right:30px;width:42px;height:42px;background:var(--red);color:var(--white);border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;z-index:90;clip-path:polygon(50% 0%,100% 50%,100% 100%,0 100%,0 50%);}
+  html.custom-cursor-active .scroll-top{cursor:none;}
+  .scroll-top.visible{opacity:1;pointer-events:auto;}
+
+  @media (prefers-reduced-motion:reduce){
+    .hero-slice{animation:none!important;}
+    .hero-eyebrow,.hero-title,.hero-sub,.hero-tagline,.hero-actions,.hero-stats{animation:none!important;opacity:1!important;transform:none!important;}
+    .reveal,.reveal-l,.reveal-r{opacity:1!important;transform:none!important;transition:none!important;}
+    .reveal.visible,.reveal-l.visible,.reveal-r.visible{opacity:1!important;transform:none!important;}
+  }
+
+  @media(max-width:1100px){
+    nav{padding:14px 28px;}
+    .nav-links,.nav-cta{display:none;}
+    .hamburger{display:flex;}
+    section{padding:80px 28px;}
+    #hero{padding:0 28px 60px;}
+    .hero-stats{right:28px;bottom:60px;}
+    #about{grid-template-columns:1fr;}
+    .about-img-wrap{max-width:380px;}
+    .tutors-grid{grid-template-columns:1fr;}
+    .steps{grid-template-columns:repeat(2,1fr);}
+    .pricing-grid{grid-template-columns:1fr;}
+    .testi-grid{grid-template-columns:1fr;}
+    .contact-wrap{grid-template-columns:1fr;}
+    .footer-top{grid-template-columns:1fr 1fr;gap:36px;}
+    .cta-band{flex-direction:column;text-align:center;}
+    .form-row{grid-template-columns:1fr;}
+  }
+  @media(max-width:620px){
+    .hero-title{font-size:3.5rem;}
+    .hero-stats{display:none;}
+    .steps{grid-template-columns:1fr;}
+    .footer-top{grid-template-columns:1fr;}
+    .footer-bottom{flex-direction:column;gap:10px;text-align:center;}
+    .gallery-strip{padding:0 28px;}
+    #gallery .inner{padding:0 28px 36px;}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <img src="logo.svg" alt="Ace Fitness" class="nav-logo-img" width="200" height="44"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#tutors">Tutors</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#testimonials">Stories</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-cta">Book a Tutor</a></li>
+  </ul>
+  <button type="button" class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-nav" id="mobileNav" role="dialog" aria-modal="true" aria-label="Main menu" aria-hidden="true">
+  <button type="button" class="mobile-close" id="mobileClose" aria-label="Close menu">&#x2715;</button>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#tutors" onclick="closeMobile()">Tutors</a>
+  <a href="#how" onclick="closeMobile()">How It Works</a>
+  <a href="#pricing" onclick="closeMobile()">Pricing</a>
+  <a href="#testimonials" onclick="closeMobile()">Stories</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<main id="main">
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-slice"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">&#9824; Tamale's Premier Training Studio</p>
+    <h1 class="hero-title">YOUR&nbsp;TUTOR.<br>YOUR&nbsp;<span class="red">EDGE.</span></h1>
+    <p class="hero-sub">At Ace Fitness, every member trains one-on-one with a certified tutor built around your body, your goals, and your pace. No classes. No crowds. Pure results.</p>
+    <p class="hero-tagline">Empowering Your Fitness Journey</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-red">Book a Session</a>
+      <a href="#tutors" class="btn-ghost">Meet the Tutors</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-num">8<span>+</span></div><div class="stat-label">Years Active</div></div>
+    <div><div class="stat-num">1<span>K+</span></div><div class="stat-label">Members Coached</div></div>
+    <div><div class="stat-num">100<span>%</span></div><div class="stat-label">Personal Attention</div></div>
+  </div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Personal Training</span><span class="ace">&#9824;</span>
+    <span>One-on-One Coaching</span><span class="ace">&#9824;</span>
+    <span>Strength Building</span><span class="ace">&#9824;</span>
+    <span>Weight Loss</span><span class="ace">&#9824;</span>
+    <span>Body Transformation</span><span class="ace">&#9824;</span>
+    <span>Nutrition Guidance</span><span class="ace">&#9824;</span>
+    <span>Mobility &amp; Recovery</span><span class="ace">&#9824;</span>
+    <span>Goal Setting</span><span class="ace">&#9824;</span>
+    <span>Personal Training</span><span class="ace">&#9824;</span>
+    <span>One-on-One Coaching</span><span class="ace">&#9824;</span>
+    <span>Strength Building</span><span class="ace">&#9824;</span>
+    <span>Weight Loss</span><span class="ace">&#9824;</span>
+    <span>Body Transformation</span><span class="ace">&#9824;</span>
+    <span>Nutrition Guidance</span><span class="ace">&#9824;</span>
+    <span>Mobility &amp; Recovery</span><span class="ace">&#9824;</span>
+    <span>Goal Setting</span><span class="ace">&#9824;</span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="about-img-wrap reveal-l">
+    <img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&q=80" alt="Ace Fitness studio" class="about-img"/>
+    <div class="about-frame"></div>
+    <div class="about-badge">8<small>Years<br>of Aces</small></div>
+  </div>
+  <div class="reveal-r">
+    <p class="section-eyebrow">&#9824; Who We Are</p>
+    <h2 class="section-title">Coaching<br>Done Right</h2>
+    <p class="section-desc">Ace Fitness is not a group class gym. We believe real transformation happens when a dedicated tutor is focused entirely on you — your form, your limits, your breakthrough. Every session is personal.</p>
+    <ul class="perks">
+      <li><span class="icon">&#x1F3CB;</span>State-of-the-Art Private Bays</li>
+      <li><span class="icon">&#x1F9E0;</span>Science-Backed Training Methods</li>
+      <li><span class="icon">&#x1F4CB;</span>Custom Programmes Per Member</li>
+      <li><span class="icon">&#x1F957;</span>Nutrition &amp; Lifestyle Guidance</li>
+      <li><span class="icon">&#x1F4C8;</span>Progress Tracking Every Session</li>
+      <li><span class="icon">&#x1F554;</span>Flexible Hours — 6AM to 10PM</li>
+    </ul>
+  </div>
+</section>
+
+<section id="tutors">
+  <div class="tutors-intro reveal">
+    <div>
+      <p class="section-eyebrow">&#9824; The Coaching Team</p>
+      <h2 class="section-title">Meet Your<br>Tutors</h2>
+    </div>
+    <p class="section-desc" style="max-width:280px">Each tutor is handpicked, certified, and specialised. When you join Ace Fitness, you get a dedicated expert in your corner — every single session.</p>
+  </div>
+  <div class="tutors-grid reveal">
+
+    <div class="tutor-card">
+      <div class="tutor-watermark">M</div>
+      <div class="tutor-avatar-ring">
+        <span class="tutor-initials">MA</span>
+        <div class="tutor-spade">&#9824;</div>
+      </div>
+      <div class="tutor-specialty">Strength &amp; Powerlifting</div>
+      <div class="tutor-name">Marcus Asante</div>
+      <div class="tutor-cert">NSCA-CSCS &nbsp;&middot;&nbsp; Head Tutor</div>
+      <div class="tutor-divider"></div>
+      <p class="tutor-bio">Former national powerlifting champion. Marcus builds raw strength with surgical precision — every rep programmed with a clear purpose and long-term progression in mind.</p>
+      <div class="tutor-stats">
+        <div><div class="t-stat-num">14<span>yr</span></div><div class="t-stat-lbl">Experience</div></div>
+        <div><div class="t-stat-num">300<span>+</span></div><div class="t-stat-lbl">Clients Coached</div></div>
+      </div>
+    </div>
+
+    <div class="tutor-card">
+      <div class="tutor-watermark">A</div>
+      <div class="tutor-avatar-ring">
+        <span class="tutor-initials">AM</span>
+        <div class="tutor-spade">&#9824;</div>
+      </div>
+      <div class="tutor-specialty">Fat Loss &amp; Nutrition</div>
+      <div class="tutor-name">Afia Mensah</div>
+      <div class="tutor-cert">ACE-CPT &nbsp;&middot;&nbsp; Nutrition Coach</div>
+      <div class="tutor-divider"></div>
+      <p class="tutor-bio">Certified personal trainer and registered nutritionist. Afia specialises in sustainable fat loss, body recomposition, and helping members build a lasting, healthy lifestyle.</p>
+      <div class="tutor-stats">
+        <div><div class="t-stat-num">9<span>yr</span></div><div class="t-stat-lbl">Experience</div></div>
+        <div><div class="t-stat-num">240<span>+</span></div><div class="t-stat-lbl">Clients Coached</div></div>
+      </div>
+    </div>
+
+    <div class="tutor-card">
+      <div class="tutor-watermark">K</div>
+      <div class="tutor-avatar-ring">
+        <span class="tutor-initials">KB</span>
+        <div class="tutor-spade">&#9824;</div>
+      </div>
+      <div class="tutor-specialty">Athletic Performance</div>
+      <div class="tutor-name">Kofi Boateng</div>
+      <div class="tutor-cert">NASM-PES &nbsp;&middot;&nbsp; Sports Tutor</div>
+      <div class="tutor-divider"></div>
+      <p class="tutor-bio">Ex-professional athlete with a gift for unlocking speed, agility, and explosive power. Kofi works with both competitive athletes and everyday people chasing peak performance.</p>
+      <div class="tutor-stats">
+        <div><div class="t-stat-num">11<span>yr</span></div><div class="t-stat-lbl">Experience</div></div>
+        <div><div class="t-stat-num">190<span>+</span></div><div class="t-stat-lbl">Clients Coached</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="how">
+  <div class="reveal" style="text-align:center">
+    <p class="section-eyebrow">&#9824; The Process</p>
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-desc" style="margin:0 auto">Getting started at Ace Fitness is simple. Four steps from today to the best shape of your life.</p>
+  </div>
+  <div class="steps reveal">
+    <div class="step"><div class="step-num">01</div><div class="step-icon">&#x1F4DE;</div><div class="step-title">Book a Consultation</div><p class="step-text">Fill out our form or call us. We'll schedule a free 30-minute consultation to understand your goals, history, and any limitations.</p></div>
+    <div class="step"><div class="step-num">02</div><div class="step-icon">&#x1F3AF;</div><div class="step-title">Get Matched</div><p class="step-text">We pair you with the tutor whose expertise best fits your goals — whether that's strength, fat loss, rehab, or athletic performance.</p></div>
+    <div class="step"><div class="step-num">03</div><div class="step-icon">&#x1F4CB;</div><div class="step-title">Your Custom Plan</div><p class="step-text">Your tutor designs a personalised programme around your body, schedule, and targets. No copy-paste plans — everything is built for you.</p></div>
+    <div class="step"><div class="step-num">04</div><div class="step-icon">&#x1F3C6;</div><div class="step-title">Train &amp; Transform</div><p class="step-text">Show up, work hard, and trust the process. Your tutor guides every rep, tracks every session, and adjusts the plan as you grow.</p></div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="reveal" style="text-align:center">
+    <p class="section-eyebrow">&#9824; Membership Plans</p>
+    <h2 class="section-title">Invest in Yourself</h2>
+  </div>
+  <div class="pricing-grid reveal">
+    <div class="plan">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price"><sup>GH&#x20B5;</sup>280</div>
+      <div class="plan-period">/ month</div>
+      <ul class="plan-features">
+        <li><span class="ok">&#x2713;</span> 4 PT Sessions / Month</li>
+        <li><span class="ok">&#x2713;</span> Custom Training Plan</li>
+        <li><span class="ok">&#x2713;</span> Gym Floor Access</li>
+        <li><span class="ok">&#x2713;</span> Progress Tracking</li>
+        <li><span class="no">&#x2717;</span> Nutrition Coaching</li>
+        <li><span class="no">&#x2717;</span> WhatsApp Tutor Support</li>
+      </ul>
+      <a href="#contact" class="plan-btn">Get Started</a>
+    </div>
+    <div class="plan featured">
+      <div class="plan-badge">Best Value</div>
+      <div class="plan-name">Ace</div>
+      <div class="plan-price"><sup>GH&#x20B5;</sup>480</div>
+      <div class="plan-period">/ month</div>
+      <ul class="plan-features">
+        <li><span class="ok">&#x2713;</span> 8 PT Sessions / Month</li>
+        <li><span class="ok">&#x2713;</span> Custom Training Plan</li>
+        <li><span class="ok">&#x2713;</span> Full Gym Access (6AM–10PM)</li>
+        <li><span class="ok">&#x2713;</span> Nutrition Coaching</li>
+        <li><span class="ok">&#x2713;</span> WhatsApp Tutor Support</li>
+        <li><span class="no">&#x2717;</span> Session Recording</li>
+      </ul>
+      <a href="#contact" class="plan-btn">Get Started</a>
+    </div>
+    <div class="plan">
+      <div class="plan-name">Elite</div>
+      <div class="plan-price"><sup>GH&#x20B5;</sup>750</div>
+      <div class="plan-period">/ month</div>
+      <ul class="plan-features">
+        <li><span class="ok">&#x2713;</span> Unlimited PT Sessions</li>
+        <li><span class="ok">&#x2713;</span> Custom Training Plan</li>
+        <li><span class="ok">&#x2713;</span> Full Gym Access (6AM–10PM)</li>
+        <li><span class="ok">&#x2713;</span> Full Nutrition Programme</li>
+        <li><span class="ok">&#x2713;</span> Priority Tutor Access</li>
+        <li><span class="ok">&#x2713;</span> Session Recording &amp; Reviews</li>
+      </ul>
+      <a href="#contact" class="plan-btn">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials">
+  <div class="reveal">
+    <p class="section-eyebrow">&#9824; Member Stories</p>
+    <h2 class="section-title">Real People.<br>Real Results.</h2>
+  </div>
+  <div class="testi-grid reveal">
+    <div class="testi-card">
+      <div class="testi-big-q">"</div>
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="testi-text">Having a tutor who knows my name, my limits, and my goals made all the difference. I dropped 18kg in 5 months — something no group class ever got me close to.</p>
+      <div class="testi-author">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80&fit=crop&crop=face" alt="Kwame Ofori" class="testi-avatar"/>
+        <div><div class="testi-name">Kwame Ofori</div><div class="testi-since">Member since 2022</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-big-q">"</div>
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="testi-text">Afia didn't just train me — she educated me. I now understand my body, my nutrition, and how to push safely. Ace Fitness changed my entire relationship with fitness.</p>
+      <div class="testi-author">
+        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&q=80&fit=crop&crop=face" alt="Abena Darko" class="testi-avatar"/>
+        <div><div class="testi-name">Abena Darko</div><div class="testi-since">Member since 2023</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-big-q">"</div>
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="testi-text">The one-on-one attention is unmatched. Marcus watched every rep, corrected every flaw, and had me deadlifting double my bodyweight within a year. Pure coaching.</p>
+      <div class="testi-author">
+        <img src="https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=100&q=80&fit=crop&crop=face" alt="Yaw Amponsah" class="testi-avatar"/>
+        <div><div class="testi-name">Yaw Amponsah</div><div class="testi-since">Member since 2021</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="inner reveal">
+    <p class="section-eyebrow">&#9824; Our Studio</p>
+    <h2 class="section-title">Inside Ace Fitness</h2>
+  </div>
+  <div class="gallery-strip">
+    <div class="g-item"><img src="https://images.unsplash.com/photo-1571019613576-2b22c76fd955?w=600&q=80" alt="Training floor with equipment at Ace Fitness"/></div>
+    <div class="g-item"><img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&q=80" alt="Dumbbells and strength training area"/></div>
+    <div class="g-item"><img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=600&q=80" alt="Member lifting with coach support"/></div>
+    <div class="g-item"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80" alt="Open gym space and cardio zone"/></div>
+    <div class="g-item"><img src="https://images.unsplash.com/photo-1549476464-37392f717541?w=600&q=80" alt="Functional training and stretching area"/></div>
+    <div class="g-item"><img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=600&q=80" alt="Weight room and racks"/></div>
+    <div class="g-item"><img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=600&q=80" alt="Studio interior and lighting"/></div>
+  </div>
+</section>
+
+<div class="cta-band reveal">
+  <h2 class="cta-title">Your tutor is<br>waiting for you.</h2>
+  <div class="cta-actions">
+    <a href="#contact" class="btn-white">Book Free Session</a>
+    <a href="tel:+233200000000" class="btn-outline-white">Call Us</a>
+  </div>
+</div>
+
+<section id="contact">
+  <div class="reveal">
+    <p class="section-eyebrow">&#9824; Get In Touch</p>
+    <h2 class="section-title">Book Your<br>First Session</h2>
+  </div>
+  <div class="contact-wrap">
+    <div class="contact-info reveal-l">
+      <div><div class="ci-label">Location</div><div class="ci-value">Education Ridge, near Tamale Stadium<br>Tamale, Northern Region, Ghana</div></div>
+      <div><div class="ci-label">Studio Hours</div><div class="ci-value">Mon – Fri: 6:00 AM – 10:00 PM<br>Saturday: 7:00 AM – 8:00 PM<br>Sunday: 8:00 AM – 6:00 PM</div></div>
+      <div><div class="ci-label">Contact</div><div class="ci-value">+233 20 000 0000<br>hello@acefitness.gh</div></div>
+      <div><div class="ci-label">First Session</div><div class="ci-value">Your first consultation is completely free. Come in, meet your tutor, and experience what personal training really feels like.</div></div>
+    </div>
+    <form class="contact-form reveal-r" id="contactForm" action="#" method="post" novalidate onsubmit="handleSubmit(event)" aria-describedby="contactFormDesc">
+      <p class="visually-hidden" id="contactFormDesc">Request a free consultation. We will respond within 24 hours. Submissions are not sent to a server until you connect a backend.</p>
+      <div class="form-row">
+        <div><label for="firstName">First Name</label><input id="firstName" name="firstName" type="text" autocomplete="given-name" placeholder="Kwame" required/></div>
+        <div><label for="lastName">Last Name</label><input id="lastName" name="lastName" type="text" autocomplete="family-name" placeholder="Asante" required/></div>
+      </div>
+      <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" placeholder="kwame@example.com" required/></div>
+      <div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+233 20 000 0000"/></div>
+      <div><label for="goal">Your Main Goal</label>
+        <select id="goal" name="goal" required>
+          <option value="">Select a goal</option>
+          <option value="fat-loss">Lose Weight / Body Fat</option>
+          <option value="strength">Build Muscle &amp; Strength</option>
+          <option value="performance">Athletic Performance</option>
+          <option value="general">General Fitness &amp; Wellness</option>
+          <option value="rehab">Post-Injury Rehabilitation</option>
+        </select>
+      </div>
+      <div><label for="tutor">Preferred Tutor</label>
+        <select id="tutor" name="tutor">
+          <option value="">No preference</option>
+          <option value="marcus">Marcus Asante — Strength</option>
+          <option value="afia">Afia Mensah — Fat Loss &amp; Nutrition</option>
+          <option value="kofi">Kofi Boateng — Athletic Performance</option>
+        </select>
+      </div>
+      <div><label for="message">Tell Us More</label><textarea id="message" name="message" rows="4" placeholder="Any injuries, health notes, or questions..."></textarea></div>
+      <button type="submit" class="form-submit">Book Free Consultation &#x2192;</button>
+      <p class="form-ok" id="formOk" role="status" aria-live="polite">&#9824; &nbsp;BOOKED — WE'LL CONFIRM WITHIN 24 HOURS.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <img src="logo.svg" alt="Ace Fitness" class="footer-logo-img" width="200" height="60"/>
+      <p class="footer-tagline">Empowering Your Fitness Journey</p>
+      <p class="footer-desc">Personal training done right. One tutor. One plan. One goal. Yours.</p>
+      <div class="footer-socials">
+        <a class="soc-btn" href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Ace Fitness on Facebook">f</a>
+        <a class="soc-btn" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="Ace Fitness on LinkedIn">in</a>
+        <a class="soc-btn" href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Ace Fitness on X (Twitter)">tw</a>
+        <a class="soc-btn" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="Ace Fitness on YouTube">yt</a>
+      </div>
+    </div>
+    <div>
+      <p class="ft-col-title">Navigate</p>
+      <ul class="ft-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#tutors">Our Tutors</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="ft-col-title">Services</p>
+      <ul class="ft-links">
+        <li><a href="#contact">1-on-1 Training</a></li>
+        <li><a href="#contact">Nutrition Coaching</a></li>
+        <li><a href="#contact">Body Transformation</a></li>
+        <li><a href="#contact">Athletic Conditioning</a></li>
+        <li><a href="#contact">Rehab &amp; Recovery</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="ft-col-title">Legal</p>
+      <ul class="ft-links">
+        <li><a href="mailto:hello@acefitness.gh?subject=Privacy%20policy%20request">Privacy Policy</a></li>
+        <li><a href="mailto:hello@acefitness.gh?subject=Terms%20of%20use%20request">Terms of Use</a></li>
+        <li><a href="mailto:hello@acefitness.gh?subject=Membership%20terms%20request">Membership Terms</a></li>
+        <li><a href="mailto:hello@acefitness.gh?subject=Refund%20policy%20request">Refund Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">&#169; 2026 <span>Ace Fitness</span>. All rights reserved.</p>
+    <p class="footer-copy">Train smart. Train personal.</p>
+  </div>
+</footer>
+
+<button type="button" class="scroll-top" id="scrollTop" aria-label="Back to top">&#8593;</button>
+
+<script>
+(function(){
+  const prefersReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer=window.matchMedia('(pointer: fine)').matches;
+  const useCustomCursor=!prefersReducedMotion&&finePointer;
+  if(useCustomCursor)document.documentElement.classList.add('custom-cursor-active');
+
+  const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  if(useCustomCursor&&cur&&ring){
+    document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+    function animate(){
+      cur.style.left=mx+'px';cur.style.top=my+'px';
+      rx+=(mx-rx)*.15;ry+=(my-ry)*.15;
+      ring.style.left=rx+'px';ring.style.top=ry+'px';
+      requestAnimationFrame(animate);
+    }
+    animate();
+    document.querySelectorAll('a,button,.tutor-card,.plan,.step').forEach(function(el){
+      el.addEventListener('mouseenter',function(){cur.style.width='18px';cur.style.height='18px';ring.style.width='52px';ring.style.height='52px';});
+      el.addEventListener('mouseleave',function(){cur.style.width='10px';cur.style.height='10px';ring.style.width='34px';ring.style.height='34px';});
+    });
+  }
+
+  const nb=document.getElementById('navbar'),st=document.getElementById('scrollTop');
+  window.addEventListener('scroll',function(){
+    nb.classList.toggle('scrolled',scrollY>50);
+    st.classList.toggle('visible',scrollY>400);
+  });
+
+  const hamburger=document.getElementById('hamburger'),mobileNav=document.getElementById('mobileNav'),mobileClose=document.getElementById('mobileClose');
+  function openMobile(){
+    mobileNav.classList.add('open');
+    document.body.classList.add('menu-open');
+    hamburger.setAttribute('aria-expanded','true');
+    mobileNav.setAttribute('aria-hidden','false');
+    mobileClose.focus();
+  }
+  function closeMobile(){
+    mobileNav.classList.remove('open');
+    document.body.classList.remove('menu-open');
+    hamburger.setAttribute('aria-expanded','false');
+    mobileNav.setAttribute('aria-hidden','true');
+    hamburger.focus();
+  }
+  window.closeMobile=closeMobile;
+  hamburger.addEventListener('click',function(){if(mobileNav.classList.contains('open'))closeMobile();else openMobile();});
+  mobileClose.addEventListener('click',closeMobile);
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&mobileNav.classList.contains('open'))closeMobile();
+  });
+
+  st.addEventListener('click',function(){
+    window.scrollTo({top:0,behavior:prefersReducedMotion?'auto':'smooth'});
+  });
+
+  const obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});
+  },{threshold:.1});
+  document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(function(el){obs.observe(el);});
+
+  window.handleSubmit=function(e){
+    e.preventDefault();
+    var form=document.getElementById('contactForm');
+    if(!form||!form.checkValidity()){form.reportValidity();return;}
+    var ok=document.getElementById('formOk');
+    ok.style.display='block';
+    form.reset();
+    setTimeout(function(){ok.style.display='none';},6000);
+  };
+})();
+</script>
+</body>
+</html>
